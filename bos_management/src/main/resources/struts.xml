@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <!-- 常量声明 -->
+    <constant name="struts.i18n.encoding" value="UTF-8"></constant>
+    <!-- 指定访问Struts2框架路径的扩展名 -->
+    <!--<constant name="struts.action.extension" value="action"></constant>-->
+    <!-- 提供更加详细的错误信息，并且修改struts.xml文件不需要重启服务器 -->
+    <constant name="struts.devMode" value="true"></constant>
+    <!-- 动态调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+    <!-- 简单ui-->
+    <constant name="struts.ui.theme" value="simple"></constant>
+    <!-- 文件上传的大小设置 -->
+    <constant name="struts.multipart.maxSize" value="509715200"/>
+    <!--<package name="default" namespace="/" extends="struts-default">
+        <global-results>
+            <result name="success">success.jsp</result>
+            <result name="input">login.jsp</result>
+        </global-results>
+        <action name="*" class="com.kynmay.action.UserAction" method="{1}"/>
+    </package>-->
+
+
+</struts>
