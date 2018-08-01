@@ -1,22 +1,22 @@
 package com.kynchen.service.base;/*
  * @author kynchen
  *
- * @date 2018/7/27 21:43
+ * @date 2018/8/1 11:18
  *
  * @version idea
  */
 
-import com.kynchen.domain.base.Area;
+import com.kynchen.domain.base.SubArea;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
-public interface AreaService {
-    void saveBatch(List<Area> areas);
+public interface SubAreaService {
+    Page<SubArea> subArea_findAll(Specification<SubArea> specification,Pageable pageable);
 
-    Page<Area> pageQuery(Specification<Area> specification, Pageable pageable);
+    void save(SubArea model);
 
-    List<Area> area_finaAll();
+    List<SubArea> findAll();
 }

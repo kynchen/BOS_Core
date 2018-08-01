@@ -9,8 +9,6 @@ package com.kynchen.action.base;/*
 import com.alibaba.fastjson.JSONArray;
 import com.crm.domain.Customer;
 import com.kynchen.action.common.BaseAction;
-import com.kynchen.dao.base.CourierRepository;
-import com.kynchen.dao.base.TakeTimeRepository;
 import com.kynchen.domain.base.FixedArea;
 import com.kynchen.service.base.FixedAreaService;
 import com.kynchen.utils.JsonUtils;
@@ -53,7 +51,19 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
         return SUCCESS;
     }
 
-    /**
+    /** 查询所有定区
+     * @return
+     */
+    @Action(value = "fixed_findAll")
+    public String fixed_findAll(){
+        List<FixedArea> fixedAreas = fixedAreaService.findAll();
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.addAll(fixedAreas);
+        JsonUtils.write(jsonArray);
+        return  NONE;
+    }
+
+    /** 定区条件分页查询
      * @return
      */
     @Action(value = "fixed_pageQuery")
@@ -81,6 +91,9 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
         return NONE;
     }
 
+    /** 查询未关联客户
+     * @return
+     */
     @Action(value = "fixedArea_findNoAssociationCustomers")
     public String findNoAssociationCustomers() {
 
@@ -95,6 +108,9 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
 
     }
 
+    /** 查询已关联客户
+     * @return
+     */
     @Action(value = "fixedArea_findHasAssociationFixedAreadCustomers")
     public String findHasAssociationFixedAreadCustomers() {
         Collection<? extends Customer> collection =
@@ -113,6 +129,9 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
         this.customerIds = customerIds;
     }
 
+    /** 将客户关联到定区
+     * @return
+     */
     @Action(value = "fixedArea_associationCustomerToFixedArea",results = {@Result(name = "success", type = "redirect", location = "./pages/base/fixed_area.html")})
     public String fixedArea_associationCustomerToFixedArea(){
         String customerIdStr = StringUtils.join(customerIds, ",");
@@ -133,6 +152,9 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
         this.takeTimeId = takeTimeId;
     }
 
+    /** 将快递员关联到定区
+     * @return
+     */
     @Action(value = "fixedArea_associationCourierToFixedArea",results = {@Result(name="success",type = "redirect",location = "./pages/base/fixed_area.html")})
     public String fixedArea_associationCourierToFixedArea(){
         fixedAreaService.associationCourierToFixedArea(model,courierId,takeTimeId);

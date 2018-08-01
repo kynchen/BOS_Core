@@ -15,12 +15,39 @@
 		<script type="text/javascript" src="../../js/easyui/ext/jquery.cookie.js"></script>
 		<script src="../../js/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 		<script type="text/javascript">
+
+            //将表单序列化为json对象
+            $.fn.serializeJson=function(){
+                var serializeObj={};
+                var array=this.serializeArray();
+                var str=this.serialize();
+                $(array).each(function(){
+                    if(serializeObj[this.name]){
+                        if($.isArray(serializeObj[this.name])){
+                            serializeObj[this.name].push(this.value);
+                        }else{
+                            serializeObj[this.name]=[serializeObj[this.name],this.value];
+                        }
+                    }else{
+                        serializeObj[this.name]=this.value;
+                    }
+                });
+                return serializeObj;
+            };
+
 			function doAdd(){
 				$('#addWindow').window("open");
 			}
 			
 			function doEdit(){
-				alert("修改...");
+			    var rows = $("#grid").datagrid('getSelections');
+			    if(rows.length!=1){
+			        $.messager.alert("系统提示","请选择一条要修改的分区数据","warnning");
+					return;
+			    }
+			    var row = rows[0];
+				$("#subAreaForm").form('load',row);
+                $("#addWindow").window("open");
 			}
 			
 			function doDelete(){
@@ -116,18 +143,29 @@
 					}
 					return "" ;
 				}
-			}, {
-				field : 'addresskey',
+			},{
+                field : 'fixedArea.id',
+                title : '定区编码',
+                width : 120,
+                align : 'center',
+                formatter : function(data,row ,index){
+                    if(row.fixedArea != null ){
+                        return row.fixedArea.id;
+                    }
+                    return "" ;
+                }
+            }, {
+				field : 'keyWords',
 				title : '关键字',
 				width : 120,
 				align : 'center'
 			}, {
-				field : 'startnum',
+				field : 'startNum',
 				title : '起始号',
 				width : 100,
 				align : 'center'
 			}, {
-				field : 'endnum',
+				field : 'endNum',
 				title : '终止号',
 				width : 100,
 				align : 'center'
@@ -153,11 +191,12 @@
 					fit : true,
 					border : true,
 					rownumbers : true,
+					fitColumns : true,
 					striped : true,
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url : "../../data/sub_area.json",
+					url : "../../subArea_queryPage.action",
 					idField : 'id',
 					columns : columns,
 					onDblClickRow : doDblClickRow
@@ -184,10 +223,27 @@
 			        height: 400,
 			        resizable:false
 			    });
-				$("#btn").click(function(){
-					alert("执行查询...");
-				});
-				
+
+
+				//添加分区信息
+				$("#save").click(function () {
+					if($("#subAreaForm").form('validate')){
+						$("#subAreaForm").submit();
+					}else{
+					    $.messager.alert("系统提示","请填写完整的信息","warnning");
+					    return;
+					}
+                })
+
+				$("#btn").click(function () {
+					var params = $("#searchForm").serializeJson();
+					$("#grid").datagrid('load',params);
+					$("#searchWindow").window('close');
+                })
+				$("#searchWindow input[type='text']").keyup(function () {
+                    var params = $("#searchForm").serializeJson();
+                    $("#grid").datagrid('load',params);
+                })
 			});
 		
 			function doDblClickRow(){
@@ -209,7 +265,7 @@
 			</div>
 
 			<div style="overflow:auto;padding:5px;" border="false">
-				<form>
+				<form id="subAreaForm" action="../../subArea_addSubArea.action" method="post">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">分区信息</td>
@@ -223,25 +279,31 @@
 						<tr>
 							<td>选择区域</td>
 							<td>
-								<input class="easyui-combobox" name="area.id" data-options="valueField:'id',textField:'name',url:'../../data/area.json'" />
+								<input class="easyui-combobox" name="area.id" data-options="valueField:'id',textField:'info',url:'../../area_findAll.action'" />
+							</td>
+						</tr>
+						<tr>
+							<td>选择定区</td>
+							<td>
+								<input class="easyui-combobox" name="fixedArea.id" data-options="valueField:'id',textField:'fixedAreaName',panelHeight:'auto',url:'../../fixed_findAll.action'" />
 							</td>
 						</tr>
 						<tr>
 							<td>关键字</td>
 							<td>
-								<input type="text" name="addresskey" class="easyui-validatebox" required="true" />
+								<input type="text" name="keyWords" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
 							<td>起始号</td>
 							<td>
-								<input type="text" name="startnum" class="easyui-validatebox" required="true" />
+								<input type="text" name="startNum" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
 							<td>终止号</td>
 							<td>
-								<input type="text" name="endnum" class="easyui-validatebox" required="true" />
+								<input type="text" name="endNum" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
@@ -257,7 +319,7 @@
 						<tr>
 							<td>位置信息</td>
 							<td>
-								<input type="text" name="position" class="easyui-validatebox" required="true" style="width:250px;" />
+								<input type="text" name="assistKeyWords" class="easyui-validatebox" required="true" style="width:250px;" />
 							</td>
 						</tr>
 					</table>
@@ -267,7 +329,7 @@
 		<!-- 查询分区 -->
 		<div class="easyui-window" title="查询分区窗口" id="searchWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 			<div style="overflow:auto;padding:5px;" border="false">
-				<form>
+				<form id="searchForm">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">查询条件</td>
@@ -275,31 +337,31 @@
 						<tr>
 							<td>省</td>
 							<td>
-								<input type="text" name="province" class="easyui-validatebox" required="true" />
+								<input type="text" name="area.province" class="easyui-validatebox"  />
 							</td>
 						</tr>
 						<tr>
 							<td>市</td>
 							<td>
-								<input type="text" name="city" class="easyui-validatebox" required="true" />
+								<input type="text" name="area.city" class="easyui-validatebox"  />
 							</td>
 						</tr>
 						<tr>
 							<td>区（县）</td>
 							<td>
-								<input type="text" name="district" class="easyui-validatebox" required="true" />
+								<input type="text" name="area.district" class="easyui-validatebox"  />
 							</td>
 						</tr>
 						<tr>
 							<td>定区编码</td>
 							<td>
-								<input type="text" name="decidedzone.id" class="easyui-validatebox" required="true" />
+								<input type="text" name="fixedArea.id" class="easyui-validatebox"  />
 							</td>
 						</tr>
 						<tr>
 							<td>关键字</td>
 							<td>
-								<input type="text" name="addresskey" class="easyui-validatebox" required="true" />
+								<input type="text" name="keyWords" class="easyui-validatebox" />
 							</td>
 						</tr>
 						<tr>

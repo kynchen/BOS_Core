@@ -6,19 +6,19 @@ package com.kynchen.action.base;/*
  * @version idea
  */
 
-import com.alibaba.fastjson.JSONArray;
 import com.kynchen.action.common.BaseAction;
 import com.kynchen.domain.base.TakeTime;
 import com.kynchen.service.base.TakeTimeService;
-import com.kynchen.utils.JsonUtils;
+import com.kynchen.utils.PageForJson;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-
-import java.util.List;
 
 @ParentPackage("struts-default")
 @Namespace("/")
@@ -31,10 +31,9 @@ public class TakeTimeAction extends BaseAction<TakeTime> {
 
     @Action(value="taketime_findAll")
     public String taketime_findAll(){
-        List<TakeTime> list = takeTimeService.findAll();
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.addAll(list);
-        JsonUtils.write(jsonArray);
+        Pageable pageable = new PageRequest(page-1,rows);
+        Page<TakeTime> page = takeTimeService.findAll(pageable);
+        PageForJson.write(page);
         return NONE;
     }
 }

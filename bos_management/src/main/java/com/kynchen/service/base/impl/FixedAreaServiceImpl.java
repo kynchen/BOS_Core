@@ -20,6 +20,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class FixedAreaServiceImpl implements FixedAreaService {
@@ -39,6 +41,11 @@ public class FixedAreaServiceImpl implements FixedAreaService {
     @Override
     public Page<FixedArea> fixed_pageQuery(Specification<FixedArea> specification, Pageable pageable) {
         return fixedAreaRepository.findAll(specification,pageable);
+    }
+
+    @Override
+    public List<FixedArea> findAll() {
+        return fixedAreaRepository.findAll();
     }
 
     @Override

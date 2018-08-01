@@ -34,4 +34,12 @@ public class AreaServiceImpl implements AreaService {
     public Page<Area> pageQuery(Specification<Area> specification, Pageable pageable) {
         return areaRepository.findAll(specification,pageable);
     }
+
+    /** 查询所有区域信息
+     * @return
+     */
+    @Override
+    public List<Area> area_finaAll() {
+        return areaRepository.findAll();
+    }
 }

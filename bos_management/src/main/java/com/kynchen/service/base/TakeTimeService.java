@@ -7,9 +7,9 @@ package com.kynchen.service.base;/*
  */
 
 import com.kynchen.domain.base.TakeTime;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TakeTimeService {
-    List<TakeTime> findAll();
+    Page<TakeTime> findAll(Pageable pageable);
 }
