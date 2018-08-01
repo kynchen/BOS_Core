@@ -48,6 +48,10 @@ public class Courier {
 
 	@ManyToMany(mappedBy = "couriers")
 	private Set<FixedArea> fixedAreas = new HashSet<FixedArea>();
+	@Transient
+	public String getInfo(){
+		return name+"("+telephone+")";
+	}
 
 	public Integer getId() {
 		return id;

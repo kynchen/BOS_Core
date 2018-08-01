@@ -9,6 +9,8 @@ package com.kynchen.action.base;/*
 import com.alibaba.fastjson.JSONArray;
 import com.crm.domain.Customer;
 import com.kynchen.action.common.BaseAction;
+import com.kynchen.dao.base.CourierRepository;
+import com.kynchen.dao.base.TakeTimeRepository;
 import com.kynchen.domain.base.FixedArea;
 import com.kynchen.service.base.FixedAreaService;
 import com.kynchen.utils.JsonUtils;
@@ -95,7 +97,6 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
 
     @Action(value = "fixedArea_findHasAssociationFixedAreadCustomers")
     public String findHasAssociationFixedAreadCustomers() {
-        System.out.println(model.getId());
         Collection<? extends Customer> collection =
                 WebClient.create("http://localhost:8081/services/customerService/hasassoicationcustomer/"+model.getId())
                         .accept(MediaType.APPLICATION_JSON)
@@ -105,5 +106,36 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
         JsonUtils.write(jsonArray);
         return NONE;
 
+    }
+    private String[] customerIds;
+
+    public void setCustomerIds(String[] customerIds) {
+        this.customerIds = customerIds;
+    }
+
+    @Action(value = "fixedArea_associationCustomerToFixedArea",results = {@Result(name = "success", type = "redirect", location = "./pages/base/fixed_area.html")})
+    public String fixedArea_associationCustomerToFixedArea(){
+        String customerIdStr = StringUtils.join(customerIds, ",");
+        WebClient.create("http://localhost:8081/services/customerService/associationtocustomer?customerIdStr="+customerIdStr+"&fixedAreaId="+model.getId()).put(null);
+        return SUCCESS;
+    }
+
+
+
+    private Integer courierId;
+    private Integer takeTimeId;
+
+    public void setCourierId(Integer courierId) {
+        this.courierId = courierId;
+    }
+
+    public void setTakeTimeId(Integer takeTimeId) {
+        this.takeTimeId = takeTimeId;
+    }
+
+    @Action(value = "fixedArea_associationCourierToFixedArea",results = {@Result(name="success",type = "redirect",location = "./pages/base/fixed_area.html")})
+    public String fixedArea_associationCourierToFixedArea(){
+        fixedAreaService.associationCourierToFixedArea(model,courierId,takeTimeId);
+        return SUCCESS;
     }
 }

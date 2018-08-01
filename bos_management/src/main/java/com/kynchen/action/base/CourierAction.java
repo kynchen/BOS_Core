@@ -6,6 +6,7 @@ package com.kynchen.action.base;/*
 * @version idea
 */
 
+import com.alibaba.fastjson.JSONArray;
 import com.kynchen.action.common.BaseAction;
 import com.kynchen.domain.base.Courier;
 import com.kynchen.service.base.CourierService;
@@ -126,6 +127,19 @@ public class CourierAction extends BaseAction<Courier> {
             JsonUtils.write("error");
             e.printStackTrace();
         }
+        return NONE;
+    }
+
+    /** 查询未关联定区的快递员
+     * @return
+     */
+    @Action(value = "courier_findNoAssociation")
+    public String courier_findNoAssociation(){
+
+        List<Courier> list = courierService.findNoAssociation();
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.addAll(list);
+        JsonUtils.write(jsonArray);
         return NONE;
     }
 

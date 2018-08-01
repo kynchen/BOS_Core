@@ -6,8 +6,12 @@ package com.kynchen.service.base.impl;/*
 * @version idea
 */
 
+import com.kynchen.dao.base.CourierRepository;
 import com.kynchen.dao.base.FixedAreaRepository;
+import com.kynchen.dao.base.TakeTimeRepository;
+import com.kynchen.domain.base.Courier;
 import com.kynchen.domain.base.FixedArea;
+import com.kynchen.domain.base.TakeTime;
 import com.kynchen.service.base.FixedAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,10 @@ public class FixedAreaServiceImpl implements FixedAreaService {
 
     @Autowired
     private FixedAreaRepository fixedAreaRepository;
+    @Autowired
+    private CourierRepository courierRepository;
+    @Autowired
+    private TakeTimeRepository takeTimeRepository;
 
     @Override
     public void save(FixedArea model) {
@@ -31,5 +39,18 @@ public class FixedAreaServiceImpl implements FixedAreaService {
     @Override
     public Page<FixedArea> fixed_pageQuery(Specification<FixedArea> specification, Pageable pageable) {
         return fixedAreaRepository.findAll(specification,pageable);
+    }
+
+    @Override
+    public void associationCourierToFixedArea(FixedArea model, Integer courierId, Integer takeTimeId) {
+        //获取定区对象
+        FixedArea fixedArea = fixedAreaRepository.findOne(model.getId());
+        //获取快递员对象
+        Courier courier = courierRepository.findOne(courierId);
+        //获取工作时间对象
+        TakeTime takeTime = takeTimeRepository.findOne(takeTimeId);
+        //由外键维护的那一方进行关联，级联保存
+        fixedArea.getCouriers().add(courier);
+        courier.setTakeTime(takeTime);
     }
 }

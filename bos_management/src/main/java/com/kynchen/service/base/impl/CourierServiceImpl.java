@@ -16,6 +16,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.Set;
+
 @Service
 @Transactional
 public class CourierServiceImpl implements CourierService {
@@ -49,5 +56,17 @@ public class CourierServiceImpl implements CourierService {
             Integer id = Integer.parseInt(s);
             courierRepository.restoreDeltag(id);
         }
+    }
+
+    @Override
+    public List<Courier> findNoAssociation() {
+        Specification<Courier> specification = new Specification<Courier>() {
+            @Override
+            public Predicate toPredicate(Root<Courier> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.isEmpty(root.get("fixedAreas").as(Set.class));
+                return predicate;
+            }
+        };
+        return courierRepository.findAll(specification);
     }
 }
