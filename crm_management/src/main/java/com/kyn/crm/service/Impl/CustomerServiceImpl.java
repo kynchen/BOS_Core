@@ -33,11 +33,17 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void AssociationToCustomer(String customerIdStr, String fixedAreaId) {
+        customerRepository.clearFixedAreaId(fixedAreaId);
+        if("null".equals(customerIdStr)){
+            return;
+        }
         String[] customerId = customerIdStr.split(",");
-        for (String s:
-             customerId) {
-            Integer id = Integer.parseInt(s);
-            customerRepository.updateFixedAreaId(fixedAreaId,id);
+            for (String s :
+                    customerId) {
+                    Integer id = Integer.parseInt(s);
+                    customerRepository.updateFixedAreaId(fixedAreaId, id);
+
         }
     }
+
 }
