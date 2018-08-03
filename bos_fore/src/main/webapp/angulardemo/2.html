@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Angular</title>
+		<script type="text/javascript" src="../js/angular.min.js"></script>
+	</head>
+
+	<body>
+		<table ng-app="myapp" ng-controller="myCtrl" width="100%" border="1">
+			<tr>
+				<td>序号</td>
+				<td>ID</td>
+				<td>名称</td>
+				<td>价格</td>
+			</tr>
+			<tr ng-repeat="product in products">
+				<td>{{$index+1}}</td>
+				<td ng-bind="product.id"></td>
+				<td ng-bind="product.name"></td>
+				<td ng-bind="product.price"></td>
+			</tr>
+		</table>
+	</body>
+	<script type="text/javascript">
+		//初始化模块
+		var myapp=angular.module('myapp',[]);
+		//依赖注入，
+		//$scope 作用域，用来存储数据
+		myapp.controller('myCtrl',['$scope',function($scope){
+			$scope.products=[{
+				id:1201,
+				name:'天',
+				price:999999
+			},{
+				id:1202,
+				name:'地',
+				price:666666
+				
+			}];
+		}]);
+	</script>
+</html>

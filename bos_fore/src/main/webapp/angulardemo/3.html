@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/angular.min.js"></script>
+		<script type="text/javascript" src="../js/angular-route.min.js"></script>
+	</head>
+	<body ng-app="myapp">
+		<div>
+			<h1>HEAD</h1>
+			<a href="#/javaEE">javaEE</a>
+			<a href="#/IOS">IOS</a>
+			<a href="#/Android">Android</a>
+		</div>
+		<div ng-view>
+			
+		</div>
+		<div>
+			<h1>FOOTER</h1>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var myapp=angular.module("myapp",["ngRoute"]);
+		myapp.config(['$routeProvider',function($routeProvider){
+			$routeProvider
+			.when('/javaEE',{
+				templateUrl:'3_1.html'
+			}).when('/IOS',{
+				templateUrl:'3_2.html'
+			}).when('/Android',{
+				templateUrl:'3_3.html'
+			}).otherwise({
+				redirectTo:'/javaEE'
+			});
+		}])
+	</script>
+</html>
