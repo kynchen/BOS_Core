@@ -6,10 +6,10 @@ package com.kynchen.action.base;/*
  * @version idea
  */
 
+import bos.domain.base.FixedArea;
 import com.alibaba.fastjson.JSONArray;
 import com.crm.domain.Customer;
 import com.kynchen.action.common.BaseAction;
-import com.kynchen.domain.base.FixedArea;
 import com.kynchen.service.base.FixedAreaService;
 import com.kynchen.utils.JsonUtils;
 import com.kynchen.utils.PageForJson;
@@ -98,7 +98,7 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
     public String findNoAssociationCustomers() {
 
         Collection<? extends Customer> collection =
-                WebClient.create("http://localhost:8081/services/customerService/noassociationcustomer")
+                WebClient.create("http://localhost:8081/crm_management/services/customerService/noassociationcustomer")
                         .accept(MediaType.APPLICATION_JSON)
                         .getCollection(Customer.class);
         JSONArray jsonArray = new JSONArray();
@@ -114,7 +114,7 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
     @Action(value = "fixedArea_findHasAssociationFixedAreadCustomers")
     public String findHasAssociationFixedAreadCustomers() {
         Collection<? extends Customer> collection =
-                WebClient.create("http://localhost:8081/services/customerService/hasassoicationcustomer/"+model.getId())
+                WebClient.create("http://localhost:8081/crm_management/services/customerService/hasassoicationcustomer/"+model.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .getCollection(Customer.class);
         JSONArray jsonArray = new JSONArray();
@@ -135,7 +135,7 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
     @Action(value = "fixedArea_associationCustomerToFixedArea",results = {@Result(name = "success", type = "redirect", location = "./pages/base/fixed_area.html")})
     public String fixedArea_associationCustomerToFixedArea(){
         String customerIdStr = StringUtils.join(customerIds, ",");
-        WebClient.create("http://localhost:8081/services/customerService/associationtocustomer?customerIdStr="+customerIdStr+"&fixedAreaId="+model.getId()).put(null);
+        WebClient.create("http://localhost:8081/crm_management/services/customerService/associationtocustomer?customerIdStr="+customerIdStr+"&fixedAreaId="+model.getId()).put(null);
         return SUCCESS;
     }
 

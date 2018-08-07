@@ -6,7 +6,7 @@ package com.kynchen.dao.base;/*
  * @version idea
  */
 
-import com.kynchen.domain.base.TakeTime;
+import bos.domain.base.TakeTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TakeTimeRepository extends JpaRepository<TakeTime,Integer> {

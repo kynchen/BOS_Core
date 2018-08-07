@@ -6,10 +6,12 @@ package com.kynchen.service.base;/*
  * @version idea
  */
 
-import com.kynchen.domain.base.TakeTime;
+import bos.domain.base.TakeTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TakeTimeService {
     Page<TakeTime> findAll(Pageable pageable);
+
+    void save(TakeTime model);
 }

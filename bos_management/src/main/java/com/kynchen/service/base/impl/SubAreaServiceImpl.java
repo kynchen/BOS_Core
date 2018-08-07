@@ -6,8 +6,8 @@ package com.kynchen.service.base.impl;/*
 * @version idea
 */
 
+import bos.domain.base.SubArea;
 import com.kynchen.dao.base.SubAreaRepository;
-import com.kynchen.domain.base.SubArea;
 import com.kynchen.service.base.SubAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,5 +44,10 @@ public class SubAreaServiceImpl implements SubAreaService {
     @Override
     public List<SubArea> findAll() {
         return subAreaRepository.findAll();
+    }
+
+    @Override
+    public void saveBatch(List<SubArea> subAreas) {
+        subAreaRepository.save(subAreas);
     }
 }

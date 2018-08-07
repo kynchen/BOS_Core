@@ -143,6 +143,7 @@
 			        height: 400,
 			        resizable:false
 			    });
+				//导入
 				$("#button-import").upload({
 					action : '../../area_ocupload.action',
 					onSelect:function(){
@@ -155,9 +156,14 @@
 					        $.messager.alert("系统提示","上传失败，仅支持.xls或.xlsx文件","warnning");
 						}
 					},
-					onComplete :function (response) {
-						$.messager.alert("系统提示","文件导入成功");
-						$("#grid").datagrid('reload');
+					onComplete :function (flag) {
+					    if(flag=="1"){
+                            $.messager.alert("系统提示","文件导入成功");
+                            $("#grid").datagrid('reload');
+						}else{
+                            $.messager.alert("系统提示","文件导入失败","warnning");
+						}
+
                     }
 				});
 				//查询

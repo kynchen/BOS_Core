@@ -6,7 +6,7 @@ package com.kynchen.service.base;/*
  * @version idea
  */
 
-import com.kynchen.domain.base.SubArea;
+import bos.domain.base.SubArea;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,9 +14,11 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 public interface SubAreaService {
-    Page<SubArea> subArea_findAll(Specification<SubArea> specification,Pageable pageable);
+    Page<SubArea> subArea_findAll(Specification<SubArea> specification, Pageable pageable);
 
     void save(SubArea model);
 
     List<SubArea> findAll();
+
+    void saveBatch(List<SubArea> subAreas);
 }

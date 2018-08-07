@@ -6,8 +6,8 @@ package com.kynchen.service.base.impl;/*
 * @version idea
 */
 
+import bos.domain.base.TakeTime;
 import com.kynchen.dao.base.TakeTimeRepository;
-import com.kynchen.domain.base.TakeTime;
 import com.kynchen.service.base.TakeTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,5 +25,10 @@ public class TakeTimeServiceImpl implements TakeTimeService {
     @Override
     public Page<TakeTime> findAll(Pageable pageable) {
         return takeTimeRepository.findAll(pageable);
+    }
+
+    @Override
+    public void save(TakeTime model) {
+        takeTimeRepository.save(model);
     }
 }

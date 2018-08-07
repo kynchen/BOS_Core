@@ -6,7 +6,7 @@ package com.kynchen.service.base;/*
  * @version idea
  */
 
-import com.kynchen.domain.base.FixedArea;
+import bos.domain.base.FixedArea;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

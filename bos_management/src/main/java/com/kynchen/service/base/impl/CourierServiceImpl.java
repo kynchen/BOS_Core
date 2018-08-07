@@ -6,8 +6,8 @@ package com.kynchen.service.base.impl;/*
 * @version idea
 */
 
+import bos.domain.base.Courier;
 import com.kynchen.dao.base.CourierRepository;
-import com.kynchen.domain.base.Courier;
 import com.kynchen.service.base.CourierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

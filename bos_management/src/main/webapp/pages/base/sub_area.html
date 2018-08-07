@@ -5,6 +5,8 @@
 		<title>管理分区</title>
 		<!-- 导入jquery核心类库 -->
 		<script type="text/javascript" src="../../js/jquery-1.8.3.js"></script>
+		<!-- 导入一键上传文件 -->
+		<script type="text/javascript" src="../../js/ocupload/jquery.ocupload-1.1.2.js"></script>
 		<!-- 导入easyui类库 -->
 		<link rel="stylesheet" type="text/css" href="../../js/easyui/themes/default/easyui.css">
 		<link rel="stylesheet" type="text/css" href="../../js/easyui/themes/icon.css">
@@ -62,9 +64,9 @@
 				alert("导出");
 			}
 			
-			function doImport(){
-				alert("导入");
-			}
+
+
+
 			
 			//工具栏
 			var toolbar = [ {
@@ -91,7 +93,7 @@
 				id : 'button-import',
 				text : '导入',
 				iconCls : 'icon-redo',
-				handler : doImport
+				// handler : doImport
 			},{
 				id : 'button-export',
 				text : '导出',
@@ -244,6 +246,27 @@
                     var params = $("#searchForm").serializeJson();
                     $("#grid").datagrid('load',params);
                 })
+
+                $("#button-import").upload({
+                    action:'../../subArea_import.action',
+                    onSelect:function () {
+                        var filename=this.filename();
+                        if(filename.endsWith(".xls")||filename.endsWith(".xlsx")){
+                            this.submit();
+                        }else{
+                            $.messager.alert("系统提示","上传失败,仅支持以.xls和.xlsx文件","warnning");
+                        }
+                    },
+                    onComplete:function (flag) {
+                        if(flag==1){
+                            alert("文件上传成功");
+                            $("#grid").datagrid('reload');
+                        }else{
+                            alert("文件上传失败");
+                        }
+                    }
+                });
+
 			});
 		
 			function doDblClickRow(){

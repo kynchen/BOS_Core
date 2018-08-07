@@ -6,13 +6,14 @@ package com.kynchen.action.base;/*
  * @version idea
  */
 
+import bos.domain.base.TakeTime;
 import com.kynchen.action.common.BaseAction;
-import com.kynchen.domain.base.TakeTime;
 import com.kynchen.service.base.TakeTimeService;
 import com.kynchen.utils.PageForJson;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -35,5 +36,13 @@ public class TakeTimeAction extends BaseAction<TakeTime> {
         Page<TakeTime> page = takeTimeService.findAll(pageable);
         PageForJson.write(page);
         return NONE;
+    }
+
+    @Action(value = "takeTime_save",results = {@Result(name = "success",location = "./pages/base/sub_area.html",type = "redirect")})
+    public String takeTime_save(){
+
+        takeTimeService.save(model);
+
+        return SUCCESS;
     }
 }

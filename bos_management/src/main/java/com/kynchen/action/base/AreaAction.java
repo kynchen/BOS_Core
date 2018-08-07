@@ -6,18 +6,18 @@ package com.kynchen.action.base;/*
 * @version idea
 */
 
+import bos.domain.base.Area;
 import com.alibaba.fastjson.JSONArray;
 import com.kynchen.action.common.BaseAction;
-import com.kynchen.domain.base.Area;
 import com.kynchen.service.base.AreaService;
 import com.kynchen.utils.JsonUtils;
 import com.kynchen.utils.PageForJson;
 import com.kynchen.utils.PinYin4jUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -66,50 +66,16 @@ public class AreaAction extends BaseAction<Area> {
     @Action(value = "area_ocupload",results = {@Result(name="success",location = "./pages/base/area.html",type = "redirect")})
     public String area_ocupload() throws Exception {
         List<Area> areas = new ArrayList<>();
-        if(fileFileName.endsWith(".xls")){
-            //.xls使用HSSF
-            HSSFWorkbook hssfWorkbook = new HSSFWorkbook(new FileInputStream(file));
-            HSSFSheet sheet = hssfWorkbook.getSheetAt(0);
-            for (Row row:sheet
-                 ) {
-                //如果是第一行 则跳过
-                if(row.getRowNum()==0){
-                    continue;
-                }
-                //如果出现空行，跳过
-                if(row.getCell(0)==null||StringUtils.isBlank(row.getCell(0).getStringCellValue())){
-                    continue;
-                }
-                Area area1 = new Area();
-                area1.setId(row.getCell(0).getStringCellValue());
-                area1.setProvince(row.getCell(1).getStringCellValue());
-                area1.setCity(row.getCell(2).getStringCellValue());
-                area1.setDistrict(row.getCell(3).getStringCellValue());
-                area1.setPostcode(row.getCell(4).getStringCellValue());
-
-
-                //简码
-                String province = area1.getProvince().substring(0,area1.getProvince().length()-1).toString();
-                String city = area1.getCity().substring(0,area1.getCity().length()-1).toString();
-                String district = area1.getDistrict().substring(0,area1.getDistrict().length()-1).toString();
-
-                String[] headByString = PinYin4jUtils.getHeadByString(province + city + district);
-                StringBuffer stringBuffer = new StringBuffer();
-                for (String head:headByString
-                     ) {
-                    stringBuffer.append(head);
-                }
-                area1.setShortcode(stringBuffer.toString());
-                //城市编码
-                area1.setCitycode(PinYin4jUtils.hanziToPinyin(city,""));
-                areas.add(area1);
+        Workbook workbook=null;
+        String flag = "0";
+        try{
+            if(fileFileName.endsWith(".xls")) {
+                //.xls使用HSSF
+                workbook = new HSSFWorkbook(new FileInputStream(file));
+            }else{
+                workbook = new XSSFWorkbook(new FileInputStream(file));
             }
-
-            areaService.saveBatch(areas);
-        }
-        if(fileFileName.endsWith(".xlsx")){
-            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(new FileInputStream(file));
-            XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
             for (Row row:sheet
                     ) {
                 //如果是第一行 则跳过
@@ -143,10 +109,17 @@ public class AreaAction extends BaseAction<Area> {
                 //城市编码
                 area1.setCitycode(PinYin4jUtils.hanziToPinyin(city,""));
                 areas.add(area1);
+                flag="1";
             }
 
             areaService.saveBatch(areas);
+
+            JsonUtils.write(flag);
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+
         return NONE;
     }
 

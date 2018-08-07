@@ -6,7 +6,7 @@ package com.kynchen.dao.base;/*
  * @version idea
  */
 
-import com.kynchen.domain.base.FixedArea;
+import bos.domain.base.FixedArea;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

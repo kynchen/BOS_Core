@@ -6,12 +6,12 @@ package com.kynchen.service.base.impl;/*
 * @version idea
 */
 
+import bos.domain.base.Courier;
+import bos.domain.base.FixedArea;
+import bos.domain.base.TakeTime;
 import com.kynchen.dao.base.CourierRepository;
 import com.kynchen.dao.base.FixedAreaRepository;
 import com.kynchen.dao.base.TakeTimeRepository;
-import com.kynchen.domain.base.Courier;
-import com.kynchen.domain.base.FixedArea;
-import com.kynchen.domain.base.TakeTime;
 import com.kynchen.service.base.FixedAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

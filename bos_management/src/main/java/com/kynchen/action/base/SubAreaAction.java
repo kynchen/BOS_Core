@@ -6,13 +6,20 @@ package com.kynchen.action.base;/*
 * @version idea
 */
 
+import bos.domain.base.Area;
+import bos.domain.base.FixedArea;
+import bos.domain.base.SubArea;
 import com.alibaba.fastjson.JSONArray;
 import com.kynchen.action.common.BaseAction;
-import com.kynchen.domain.base.SubArea;
 import com.kynchen.service.base.SubAreaService;
 import com.kynchen.utils.JsonUtils;
 import com.kynchen.utils.PageForJson;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -26,6 +33,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.criteria.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +62,7 @@ public class SubAreaAction extends BaseAction<SubArea> {
     /** 添加分区信息
      * @return
      */
-    @Action(value = "subArea_addSubArea",results = {@Result(name="success",type="redirect",location = "./pages/base/sub_area.html")})
+    @Action(value = "subArea_addSubArea",results = {@Result(name="success",type="redirect",location = "./pages/base/take_time.html")})
     public  String subArea_addSubArea(){
         subAreaService.save(model);
         return SUCCESS;
@@ -94,6 +103,64 @@ public class SubAreaAction extends BaseAction<SubArea> {
         };
         Page<SubArea> page = subAreaService.subArea_findAll(specification,pageable);
         PageForJson.write(page);
+        return NONE;
+    }
+
+    private File file;
+    private String fileFileName;
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public void setFileFileName(String fileFileName) {
+        this.fileFileName = fileFileName;
+    }
+
+    @Action(value="subArea_import")
+    public String subArea_import(){
+        List<SubArea> subAreas = new ArrayList<>();
+        Workbook workbook=null;
+        String flag="0";
+            try {
+                if(fileFileName.endsWith(".xls")) {
+                    workbook = new HSSFWorkbook(new FileInputStream(file));
+                }else{
+                    workbook = new XSSFWorkbook(new FileInputStream(file));
+                }
+                Sheet sheet = workbook.getSheetAt(0);
+                for(Row row:sheet){
+                    if(row.getRowNum()==0){
+                        continue;
+                    }
+                    if(row.getCell(0)==null||StringUtils.isBlank(row.getCell(0).getStringCellValue())){
+                        continue;
+                    }
+                    SubArea subArea = new SubArea();
+
+                    subArea.setId(row.getCell(0).getStringCellValue());
+
+                    FixedArea fixedArea = new FixedArea();
+                    fixedArea.setId(row.getCell(1).getStringCellValue());
+                    subArea.setFixedArea(fixedArea);
+
+                    Area area = new Area();
+                    area.setId(row.getCell(2).getStringCellValue());
+                    subArea.setArea(area);
+                    subArea.setKeyWords(row.getCell(3).getStringCellValue());
+                    subArea.setStartNum(row.getCell(4).getStringCellValue());
+                    subArea.setEndNum(row.getCell(5).getStringCellValue());
+                    subArea.setSingle(row.getCell(6).getStringCellValue().charAt(0));
+                    subArea.setAssistKeyWords(row.getCell(7).getStringCellValue());
+                    subAreas.add(subArea);
+                    flag="1";
+                }
+                subAreaService.saveBatch(subAreas);
+                JsonUtils.write(flag);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         return NONE;
     }
 }

@@ -6,9 +6,9 @@ package com.kynchen.action.base;/*
 * @version idea
 */
 
+import bos.domain.base.Courier;
 import com.alibaba.fastjson.JSONArray;
 import com.kynchen.action.common.BaseAction;
-import com.kynchen.domain.base.Courier;
 import com.kynchen.service.base.CourierService;
 import com.kynchen.utils.JsonUtils;
 import com.kynchen.utils.PageForJson;

@@ -6,7 +6,7 @@ package com.kynchen.service.base;/*
 * @version idea
 */
 
-import com.kynchen.domain.base.Standard;
+import bos.domain.base.Standard;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

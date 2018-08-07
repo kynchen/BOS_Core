@@ -6,8 +6,8 @@ package com.kynchen.service.base.impl;/*
 * @version idea
 */
 
+import bos.domain.base.Standard;
 import com.kynchen.dao.base.StandardRepository;
-import com.kynchen.domain.base.Standard;
 import com.kynchen.service.base.StandardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
