@@ -1,4 +1,4 @@
-package com.kynchen.domain.base;
+package bos.domain.base;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

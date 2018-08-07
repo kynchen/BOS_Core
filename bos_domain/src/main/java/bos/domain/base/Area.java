@@ -1,11 +1,10 @@
-package com.kynchen.domain.base;
+package bos.domain.base;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
 
 /**
  * @description:地域信息实体类，主要包含 省市区(县)

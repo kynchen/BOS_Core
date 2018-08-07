@@ -1,6 +1,4 @@
-package com.kynchen.domain.base;
-
-import com.alibaba.fastjson.annotation.JSONField;
+package bos.domain.base;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -133,7 +131,7 @@ public class Courier {
 		this.vehicleNum = vehicleNum;
 	}
 
-	@JSONField(serialize = false)
+	//0@JSONField(serialize = false)
 	public Set<FixedArea> getFixedAreas() {
 		return fixedAreas;
 	}

@@ -1,4 +1,4 @@
-package com.kynchen.domain.base;
+package bos.domain.base;
 
 import javax.persistence.*;
 import java.util.Date;
