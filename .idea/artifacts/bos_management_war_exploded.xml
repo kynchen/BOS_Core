@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="bos_management:war exploded">
-    <output-path>$PROJECT_DIR$/bos_management/target/bos_management</output-path>
+    <output-path>$PROJECT_DIR$/bos_management/target/bos</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -9,6 +9,9 @@
         <element id="directory" name="lib">
           <element id="archive" name="crm_domain-1.0-SNAPSHOT.jar">
             <element id="module-output" name="crm_domain" />
+          </element>
+          <element id="archive" name="bos_domain-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="bos_domain" />
           </element>
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-all:1.2.2" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-guice:1.2.2" />
@@ -113,10 +116,12 @@
           <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0" />
           <element id="library" level="project" name="Maven: org.apache.xbean:xbean-spring:4.6" />
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.0.3" />
+          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.2.1" />
+          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz-jobs:2.2.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/bos_management/target/bos_management/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/bos_management/target/bos/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="bos_management/web/Web" />
     </root>

@@ -43,4 +43,8 @@ public interface CustomerService {
 
     @Path("/customer/updatetype/{telephone}")
     public void updateType(@PathParam("telephone") String telephone);
+
+    @Path("/customer/login")
+    @GET
+    public Customer login(@QueryParam("telephone") String telephone,@QueryParam("password") String password);
 }

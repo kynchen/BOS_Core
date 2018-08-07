@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/angular.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+</head>
+<body np-app="pagenationApp" np-controller="pagenontionCtrl">
+<table class="table table-bordered">
+
+</table>
+</body>
+<script>
+    var pagenationApp=angular.moduel("pagenationApp",[]);
+    pagenationApp.controller("pagenationCtrl",["$scope","$http",function ($scope,$http) {
+
+        $scope.currentPage=1;
+        $scope.pageSize=4;
+        $scope.totalCount=0;
+        $scope.totalPage=0;
+
+        $scope.prex=function () {
+            return $scope.select($scope.currentPage-1);
+        }
+        $scope.select=function (page) {
+            $http({
+                method:'POST',
+                url:'../../poromation_page.action',
+                params:{
+                    page:page,
+                    pageSize:$scope.pageSize
+                }
+            }).success(function (data,status,header,config) {
+                $scope.products=data.products;
+            }).error(function (data,status,header,config) {
+                alert("错误");
+            })
+        }
+        $scope.next=function () {
+            return $scope.select($scope.currentPage+1);
+        }
+        
+        $scope.isActicePage=function (page) {
+            return $scope.currentPage === page;
+        }
+
+    }])
+</script>
+</html>

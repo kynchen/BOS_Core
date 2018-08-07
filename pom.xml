@@ -14,6 +14,7 @@
         <module>crm_management</module>
         <module>bos_fore</module>
         <module>bos_sms</module>
+        <module>bos_domain</module>
     </modules>
 
     <properties>
@@ -305,6 +306,17 @@
             <version>4.6</version>
         </dependency>
 
+        <!-- quartz任务调度 -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+            <version>2.2.1</version>
+        </dependency>
 
 
         <!-- ActiveMQ -->
