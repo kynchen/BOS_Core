@@ -1,4 +1,4 @@
-package bos.test;/*
+package bos.domain.test;/*
 * @author kynchen
 * 
 * @date 2018/8/3 0:01
