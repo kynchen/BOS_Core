@@ -58,6 +58,8 @@ public class PromotionAction extends BaseAction<Promotion> {
     @Action(value="promotion_showDetail")
     public String promotion_showDetail() throws Exception {
 
+
+
         //获取freemarker的绝对路径
         String path = ServletActionContext.getServletContext().getRealPath("/freemarker");
 
@@ -75,7 +77,6 @@ public class PromotionAction extends BaseAction<Promotion> {
             map.put("promotion",promotion);
             template.process(map,new OutputStreamWriter(new FileOutputStream(htmlFile),"utf-8"));
         }
-
         ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
         //获取流，写回html文件
         FileUtils.copyFile(htmlFile,ServletActionContext.getResponse().getOutputStream());

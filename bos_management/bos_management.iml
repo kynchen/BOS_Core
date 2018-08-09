@@ -15,6 +15,12 @@
         <fileset id="fileset4" name="ApplicationContext DataSource" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/applicationContext-dataSource.xml</file>
         </fileset>
+        <fileset id="fileset5" name="ApplicationContext Mq" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/applicationContext-mq.xml</file>
+        </fileset>
+        <fileset id="fileset6" name="ApplicationContext Consume" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/applicationContext-consume.xml</file>
+        </fileset>
       </configuration>
     </facet>
     <facet type="web" name="Web">

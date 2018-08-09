@@ -5,6 +5,7 @@ import bos.domain.base.Courier;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "T_ORDER")
 @XmlRootElement(name = "order")
-public class Order {
+public class Order implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "C_ID")

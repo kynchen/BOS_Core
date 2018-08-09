@@ -1,7 +1,8 @@
 $(function () {
 
     'use strict';
-
+    var $recAreaInfo=$('#recAreaInfo');
+    var $sendAreaInfo=$('#sendAreaInfo');
 
     var $citypicker1 = $('#city-picker1');
 
@@ -19,12 +20,13 @@ $(function () {
 
     $('#reset').click(function () {
         $citypicker3.citypicker('reset');
-       
-        
+        $sendAreaInfo.citypicker('reset');
+
     });
     $('#reset2').click(function () {
         $citypicker2.citypicker('reset');
-       
+        $recAreaInfo.citypicker('reset');
+
         
     });
     

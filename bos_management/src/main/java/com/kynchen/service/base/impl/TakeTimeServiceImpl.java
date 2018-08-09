@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class TakeTimeServiceImpl implements TakeTimeService {
@@ -30,5 +32,10 @@ public class TakeTimeServiceImpl implements TakeTimeService {
     @Override
     public void save(TakeTime model) {
         takeTimeRepository.save(model);
+    }
+
+    @Override
+    public List<TakeTime> findAllData() {
+        return takeTimeRepository.findAll();
     }
 }

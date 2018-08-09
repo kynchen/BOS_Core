@@ -26,4 +26,9 @@
 	<import resource="applicationContext-webService.xml"/>
 	<!-- 引入Quartz调度 -->
 	<import resource="applicationContext-quartz.xml"/>
+	<!-- 引入生产者  -->
+	<import resource="applicationContext-mq.xml"/>
+	<!-- 引入消费者 -->
+	<import resource="applicationContext-consume.xml"/>
+
 </beans>

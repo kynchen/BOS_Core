@@ -33,4 +33,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
     void updateType(String telephone);
 
     public Customer findByTelephoneAndPassword(String telephone,String password);
+
+    @Query("select fixedAreaId from Customer where address = ?1")
+    String findFixedAreaIdByAddress(String address);
 }

@@ -7,8 +7,10 @@ package com.kynchen.action.base;/*
  */
 
 import bos.domain.base.TakeTime;
+import com.alibaba.fastjson.JSONArray;
 import com.kynchen.action.common.BaseAction;
 import com.kynchen.service.base.TakeTimeService;
+import com.kynchen.utils.JsonUtils;
 import com.kynchen.utils.PageForJson;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -20,6 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @ParentPackage("struts-default")
 @Namespace("/")
@@ -35,6 +39,14 @@ public class TakeTimeAction extends BaseAction<TakeTime> {
         Pageable pageable = new PageRequest(page-1,rows);
         Page<TakeTime> page = takeTimeService.findAll(pageable);
         PageForJson.write(page);
+        return NONE;
+    }
+    @Action(value = "taketime_findAllData")
+    public String taketime_findAllData(){
+        List<TakeTime> takeTimes = takeTimeService.findAllData();
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.addAll(takeTimes);
+        JsonUtils.write(jsonArray);
         return NONE;
     }
 

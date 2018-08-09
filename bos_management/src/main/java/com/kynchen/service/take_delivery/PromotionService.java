@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 
 import javax.ws.rs.*;
 import java.util.Date;
-
 public interface PromotionService {
 
     void save(Promotion model);

@@ -3,6 +3,7 @@ package bos.domain.take_delivery;
 import bos.domain.base.Courier;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "T_WORK_BILL")
-public class WorkBill {
+public class WorkBill implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "C_ID")

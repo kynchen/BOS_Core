@@ -11,6 +11,7 @@ import bos.domain.base.FixedArea;
 import bos.domain.base.SubArea;
 import com.alibaba.fastjson.JSONArray;
 import com.kynchen.action.common.BaseAction;
+import com.kynchen.dao.base.AreaRepository;
 import com.kynchen.service.base.SubAreaService;
 import com.kynchen.utils.JsonUtils;
 import com.kynchen.utils.PageForJson;
@@ -46,6 +47,8 @@ public class SubAreaAction extends BaseAction<SubArea> {
 
     @Autowired
     private SubAreaService subAreaService;
+    @Autowired
+    private AreaRepository areaRepository;
 
     /** 查询所有的分区信息
      * @return
@@ -103,6 +106,7 @@ public class SubAreaAction extends BaseAction<SubArea> {
         };
         Page<SubArea> page = subAreaService.subArea_findAll(specification,pageable);
         PageForJson.write(page);
+        System.out.println(page.getContent());
         return NONE;
     }
 
@@ -140,18 +144,22 @@ public class SubAreaAction extends BaseAction<SubArea> {
 
                     subArea.setId(row.getCell(0).getStringCellValue());
 
-                    FixedArea fixedArea = new FixedArea();
-                    fixedArea.setId(row.getCell(1).getStringCellValue());
-                    subArea.setFixedArea(fixedArea);
 
-                    Area area = new Area();
-                    area.setId(row.getCell(2).getStringCellValue());
+
+                    String province =row.getCell(1).getStringCellValue();
+                    String city = row.getCell(2).getStringCellValue();
+                    String distinct=row.getCell(3).getStringCellValue();
+                    Area area =areaRepository.findByProvinceAndCityAndDistrict(province,city,distinct).get(0);
                     subArea.setArea(area);
-                    subArea.setKeyWords(row.getCell(3).getStringCellValue());
-                    subArea.setStartNum(row.getCell(4).getStringCellValue());
-                    subArea.setEndNum(row.getCell(5).getStringCellValue());
-                    subArea.setSingle(row.getCell(6).getStringCellValue().charAt(0));
-                    subArea.setAssistKeyWords(row.getCell(7).getStringCellValue());
+                    subArea.setKeyWords(row.getCell(4).getStringCellValue());
+                    subArea.setStartNum(row.getCell(5).getStringCellValue());
+                    subArea.setEndNum(row.getCell(6).getStringCellValue());
+                    subArea.setSingle(row.getCell(7).getStringCellValue().charAt(0));
+                    subArea.setAssistKeyWords(row.getCell(8).getStringCellValue());
+
+                    FixedArea fixedArea = new FixedArea();
+                    fixedArea.setId(row.getCell(9).getStringCellValue());
+                    subArea.setFixedArea(fixedArea);
                     subAreas.add(subArea);
                     flag="1";
                 }

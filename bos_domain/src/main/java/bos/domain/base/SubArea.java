@@ -94,4 +94,17 @@ public class SubArea {
 		this.fixedArea = fixedArea;
 	}
 
+	@Override
+	public String toString() {
+		return "SubArea{" +
+				"id='" + id + '\'' +
+				", startNum='" + startNum + '\'' +
+				", endNum='" + endNum + '\'' +
+				", single=" + single +
+				", keyWords='" + keyWords + '\'' +
+				", assistKeyWords='" + assistKeyWords + '\'' +
+				", area=" + area +
+				", fixedArea=" + fixedArea +
+				'}';
+	}
 }

@@ -10,8 +10,12 @@ import bos.domain.base.TakeTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface TakeTimeService {
     Page<TakeTime> findAll(Pageable pageable);
 
     void save(TakeTime model);
+
+    List<TakeTime> findAllData();
 }
