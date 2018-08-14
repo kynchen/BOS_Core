@@ -10,6 +10,8 @@ import bos.domain.base.SubArea;
 import com.kynchen.dao.base.SubAreaRepository;
 import com.kynchen.service.base.SubAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -37,16 +39,19 @@ public class SubAreaServiceImpl implements SubAreaService {
      * @param model
      */
     @Override
+    @CacheEvict("standard")
     public void save(SubArea model) {
         subAreaRepository.save(model);
     }
 
     @Override
+    @Cacheable("standard")
     public List<SubArea> findAll() {
         return subAreaRepository.findAll();
     }
 
     @Override
+    @CacheEvict("standard")
     public void saveBatch(List<SubArea> subAreas) {
         subAreaRepository.save(subAreas);
     }

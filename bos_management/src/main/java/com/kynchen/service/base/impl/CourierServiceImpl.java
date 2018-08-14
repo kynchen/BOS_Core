@@ -10,6 +10,8 @@ import bos.domain.base.Courier;
 import com.kynchen.dao.base.CourierRepository;
 import com.kynchen.service.base.CourierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,6 +32,7 @@ public class CourierServiceImpl implements CourierService {
     @Autowired
     private CourierRepository courierRepository;
     @Override
+    @CacheEvict("standard")
     public void save(Courier courier) {
         courierRepository.save(courier);
     }
@@ -59,6 +62,7 @@ public class CourierServiceImpl implements CourierService {
     }
 
     @Override
+    @Cacheable("standard")
     public List<Courier> findNoAssociation() {
         Specification<Courier> specification = new Specification<Courier>() {
             @Override

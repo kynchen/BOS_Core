@@ -115,12 +115,21 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("进入人工调度....");
     }
 
+    @Override
+    public Order findOrderByOrderNum(String orderNum) {
+        return orderRepository.findOrderByOrderNum(orderNum);
+    }
+
     //自动分单
     private void saveAutoOrder(Order order, Courier courier) {
         order.setCourier(courier);
         order.setOrderType("1");
         orderRepository.save(order);
     }
+
+    /** 生成工单
+     * @param order
+     */
     private void generateWorkBill(final Order order){
         final WorkBill workBill = new WorkBill();
         workBill.setType("新");

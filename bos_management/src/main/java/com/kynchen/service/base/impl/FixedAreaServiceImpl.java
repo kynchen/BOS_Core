@@ -14,6 +14,8 @@ import com.kynchen.dao.base.FixedAreaRepository;
 import com.kynchen.dao.base.TakeTimeRepository;
 import com.kynchen.service.base.FixedAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -34,6 +36,7 @@ public class FixedAreaServiceImpl implements FixedAreaService {
     private TakeTimeRepository takeTimeRepository;
 
     @Override
+    @CacheEvict("standard")
     public void save(FixedArea model) {
         fixedAreaRepository.save(model);
     }
@@ -44,6 +47,7 @@ public class FixedAreaServiceImpl implements FixedAreaService {
     }
 
     @Override
+    @Cacheable("standard")
     public List<FixedArea> findAll() {
         return fixedAreaRepository.findAll();
     }

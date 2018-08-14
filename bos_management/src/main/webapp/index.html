@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<title>BOS管理系统 首页</title>
 		<link href="favicon.ico" rel="icon" type="image/x-icon" />
+		<script type="text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 		<!-- 导入jquery核心类库 -->
 		<script type="text/javascript" src="./js/jquery-1.8.3.js"></script>
 		<!-- 导入easyui类库 -->
@@ -32,7 +33,7 @@
 				};
 				
 				// 基本功能菜单加载
-				$.post("./data/menu.json",function(data){
+				$.post("./menu_showMenu.action",function(data){
 					$.fn.zTree.init($("#treeMenu"), setting, data);
 				},"json");
 				
@@ -94,7 +95,9 @@
 							});
 						}
 					} 
-				}); 
+				});
+				var cip=returnCitySN.cip;
+				$("#cip").append(cip);
 			});
 			
 			function onClick(event, treeId, treeNode, clickFlag) {
@@ -150,7 +153,7 @@
 				$.messager
 				.confirm('系统提示','您确定要退出本次登录吗?',function(isConfirm) {
 					if (isConfirm) {
-						location.href = './login.html';
+						location.href = 'user_logout.action';
 					}
 				});
 			}
@@ -160,7 +163,7 @@
 			}
 			// 版权信息
 			function showAbout(){
-				$.messager.alert("bos v2.0综合物流管理平台","设计: 传智播客<br/> 管理员邮箱: itcast_search@163.com <br/>");
+				$.messager.alert("bos v2.0综合物流管理平台","设计: kynchen<br/> 管理员邮箱: kynchen@163.com <br/>");
 			}
 		</script>
 	</head>
@@ -171,7 +174,7 @@
 				<img src="./images/logo.png" border="0">
 			</div>
 			<div id="sessionInfoDiv" style="position: absolute;right: 5px;top:10px;">
-				[<strong>超级管理员</strong>]，欢迎你！您使用[<strong>192.168.1.100</strong>]IP登录！
+				[<strong>超级管理员</strong>]，欢迎你！您使用[<strong id="cip"></strong>]IP登录！
 			</div>
 			<div style="position: absolute; right: 5px; bottom: 10px; ">
 				<a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#layout_north_pfMenu',iconCls:'icon-ok'">更换皮肤</a>

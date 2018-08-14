@@ -10,6 +10,8 @@ import bos.domain.base.Area;
 import com.kynchen.dao.base.AreaRepository;
 import com.kynchen.service.base.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,6 +28,7 @@ public class AreaServiceImpl implements AreaService {
     private AreaRepository areaRepository;
 
     @Override
+    @CacheEvict("standard")
     public void saveBatch(List<Area> areas) {
         areaRepository.save(areas);
     }
@@ -39,6 +42,7 @@ public class AreaServiceImpl implements AreaService {
      * @return
      */
     @Override
+    @Cacheable("standard")
     public List<Area> area_finaAll() {
         return areaRepository.findAll();
     }

@@ -56,7 +56,8 @@ public class CustomerAction extends BaseAction<Customer> {
         final String code = RandomStringUtils.randomNumeric(6);
         //将code存入redis
         redisTemplate.opsForValue().set("code", code, 5, TimeUnit.MINUTES);
-
+//        redisTemplate.boundValueOps("code").set(code);
+//        redisTemplate.boundValueOps("code").expire(5,TimeUnit.MINUTES);
         //将发送短信请求消息发送给MQ队列
         jmsTemplate.send("bos_sms", new MessageCreator() {
             @Override

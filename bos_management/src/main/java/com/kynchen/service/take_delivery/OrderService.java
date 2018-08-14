@@ -11,4 +11,6 @@ import bos.domain.take_delivery.Order;
 public interface OrderService {
 
     void save(Order order);
+
+    Order findOrderByOrderNum(String orderNum);
 }

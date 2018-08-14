@@ -10,6 +10,8 @@ import bos.domain.base.TakeTime;
 import com.kynchen.dao.base.TakeTimeRepository;
 import com.kynchen.service.base.TakeTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,11 +32,13 @@ public class TakeTimeServiceImpl implements TakeTimeService {
     }
 
     @Override
+    @CacheEvict("standard")
     public void save(TakeTime model) {
         takeTimeRepository.save(model);
     }
 
     @Override
+    @Cacheable("standard")
     public List<TakeTime> findAllData() {
         return takeTimeRepository.findAll();
     }

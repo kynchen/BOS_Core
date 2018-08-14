@@ -15,6 +15,25 @@
 		<script type="text/javascript" src="../../js/easyui/ext/jquery.cookie.js"></script>
 		<script src="../../js/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 		<script type="text/javascript">
+
+            function getMyDate(str){
+                var oDate = new Date(str),
+                    oYear = oDate.getFullYear(),
+                    oMonth = oDate.getMonth()+1,
+                    oDay = oDate.getDate(),
+                    oHour = oDate.getHours(),
+                    oMin = oDate.getMinutes(),
+                    oSen = oDate.getSeconds(),
+                    oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);//最后拼接时间
+                return oTime;
+            };
+            //补0操作
+            function getzf(num){
+                if(parseInt(num) < 10){
+                    num = '0'+num;
+                }
+                return num;
+            }
 			// 工具栏
 			var toolbar = [ {
 				id : 'button-view',	
@@ -57,7 +76,10 @@
 				title : '生日',
 				width : 120,
 				rowspan : 2,
-				align : 'center'
+				align : 'center',
+				formatter:function (value,row,index) {
+                        return getMyDate(value);
+                 }
 			}, {
 				title : '其他信息',
 				colspan : 2
@@ -87,7 +109,7 @@
 					rownumbers : true,
 					striped : true,
 					toolbar : toolbar,
-					url : "../../data/users.json",
+					url : "../../user_list.action",
 					idField : 'id', 
 					frozenColumns : frozenColumns,
 					columns : columns,
