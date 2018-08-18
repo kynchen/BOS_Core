@@ -22,4 +22,5 @@ public interface CourierRepository extends JpaRepository<Courier,Integer>,JpaSpe
     @Modifying
     void restoreDeltag(Integer id);
 
+    Courier findById(Integer id);
 }

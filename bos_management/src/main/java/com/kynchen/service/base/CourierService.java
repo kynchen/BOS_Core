@@ -24,5 +24,7 @@ public interface CourierService {
 
     List<Courier> findNoAssociation();
 
+    List<Courier> cour_findAll();
 
+    Courier findById(Courier model);
 }

@@ -34,6 +34,7 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
+
     public Page<Area> pageQuery(Specification<Area> specification, Pageable pageable) {
         return areaRepository.findAll(specification,pageable);
     }

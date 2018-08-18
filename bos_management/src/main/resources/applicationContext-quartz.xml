@@ -25,13 +25,20 @@
 		<property name="startDelay" value="0"/>
 		<property name="repeatInterval" value="60000"/>
 	</bean>
+	
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="promotionJob"/>
+		<property name="cronExpression">
+			<value>0 0 12 * * ? </value>
+		</property>
+	</bean>
 
 	<!-- schedule -->
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="jobFactory" ref="jobFactory"/>
  		<property name="triggers">
 			<list>
-				<ref bean="simpleTrigger"/>
+				<ref bean="cronTrigger"/>
 			</list>
 		</property>
 	</bean>

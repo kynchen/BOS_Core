@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kynchen.action.common.BaseAction;
 import com.kynchen.utils.JsonUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -41,11 +42,11 @@ public class ImageAction extends BaseAction<Object> {
     public String image_upload() throws Exception {
 
         //绝对路径
-//        String savePath = ServletActionContext.getServletContext().getRealPath("/upload");
-        String savePath = "F:/upload";
+        String savePath = ServletActionContext.getServletContext().getRealPath("/upload");
+//        String savePath = "F:/upload";
         //相对路径
-//        String loadPath = ServletActionContext.getRequest().getContextPath()+"/upload/";
-        String loadPath ="/upload/";
+        String loadPath = ServletActionContext.getRequest().getContextPath()+"/upload/";
+//        String loadPath ="/upload/";
         UUID uuid = UUID.randomUUID();
 
         String fileName = uuid+imgFileFileName.substring(imgFileFileName.lastIndexOf("."));
@@ -64,14 +65,14 @@ public class ImageAction extends BaseAction<Object> {
     @Action(value = "image_manage")
     public  String image_manage(){
         // 根目录路径，可以指定绝对路径，比如 d:/xxx/upload/xxx.jpg
-//        String rootPath = ServletActionContext.getServletContext().getRealPath(
-//                "/")
-//                + "upload/";
-        String rootPath = "F:/upload/";
+        String rootPath = ServletActionContext.getServletContext().getRealPath(
+                "/")
+                + "upload/";
+//        String rootPath = "F:/upload/";
         // 根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
-//        String rootUrl = ServletActionContext.getRequest().getContextPath()
-//                + "/upload/";
-        String rootUrl ="/upload/";
+        String rootUrl = ServletActionContext.getRequest().getContextPath()
+                + "/upload/";
+//        String rootUrl ="/upload/";
         // 遍历目录取的文件信息
         List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
         // 当前上传目录

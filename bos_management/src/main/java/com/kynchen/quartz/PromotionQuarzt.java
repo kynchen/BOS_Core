@@ -7,6 +7,7 @@ package com.kynchen.quartz;/*
 */
 
 import com.kynchen.service.take_delivery.PromotionService;
+import com.kynchen.service.take_delivery.WayBillService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,9 +22,11 @@ public class PromotionQuarzt implements Job
 {
     @Autowired
     private PromotionService promotionService;
-
+    @Autowired
+    private WayBillService wayBillService;
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         promotionService.updateDate(new Date());
+        wayBillService.syncIndex();
     }
 }

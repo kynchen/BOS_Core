@@ -38,6 +38,54 @@
 				var params=$('#searchForm').serializeJson();
 				$('#tt').datagrid('load', params);
 			}
+			//中转配送点击事件
+			$(function () {
+				$("#transit").click(function () {
+					var rows = $("#tt").datagrid('getSelections');
+					if(rows.length==0){
+					    $.messager.alert("系统提示","请选择运单","warning");
+					    return;
+					}
+					var array = new Array();
+					for(var i=0;i<rows.length;i++){
+					    array.push(rows[i].id);
+					}
+					var wayBillIds=array.join(",");
+					$.ajax({
+						type:'POST',
+						data:{wayBillIds:wayBillIds},
+						dataType:'json',
+						url:'../../transit_create.action',
+						success:function (data) {
+							if(data.success==true){
+							    $.messager.show({
+									title:'系统提示',
+									msg:data.msg
+								})
+							}else{
+							    $.messager.show({
+									title:'系统提示',
+									msg:data.msg
+								})
+							}
+                        }
+					});
+                });
+				//导出Excel表格
+                $("#exportXlsBtn").click(function(){
+                    // 下载效果
+                    $("#searchForm").attr("action", "../../report_exportXls.action");
+                    $("#searchForm").submit();
+                });
+
+                //导出PDF
+                $("#exportPdfBtn").click(function(){
+                    // 下载效果
+                    $("#searchForm").attr("action", "../../report_exportPDF.action");
+                    $("#searchForm").submit();
+                });
+            });
+
 		</script>
 	</head>
 
@@ -49,11 +97,11 @@
 			<a id="print" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印查询结果</a>
 			<a id="cancel" icon="icon-cancel" href="#" class="easyui-linkbutton" plain="true">取消</a>
 			<a id="save2" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
-			<a id="print2" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印标签</a>
-			<a id="print3" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印工作单</a>
-			
+			<a id="transit" icon="icon-edit" href="#" class="easyui-linkbutton" plain="true">开始中转配送</a>
+			<a id="exportXlsBtn" icon="icon-undo" href="#" class="easyui-linkbutton" plain="true">报表生成</a>
+			<a id="exportPdfBtn" icon="icon-undo" href="#" class="easyui-linkbutton" plain="true">PDF生成</a>
 			<br />
-			<form id="searchForm">
+			<form id="searchForm" method="post">
 				运单号：<input name="wayBillNum" style="line-height:26px;border:1px solid #ccc" />
 				发货地：<input name="sendAddress" style="line-height:26px;border:1px solid #ccc" />
 				收货地：<input name="recAddress" style="line-height:26px;border:1px solid #ccc" />

@@ -11,6 +11,7 @@ import com.kynchen.action.common.BaseAction;
 import com.kynchen.service.take_delivery.PromotionService;
 import com.kynchen.utils.PageForJson;
 import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -52,8 +53,11 @@ public class PromotionAction extends BaseAction<Promotion> {
     @Action(value = "promotion_save",results = {@Result(name = "success",type = "redirect",location = "./pages/take_delivery/promotion.html")})
     public String promotion_save() throws Exception {
 
-        String savePath="F:/upload/";
-        String url="/upload/";
+        String savePath=ServletActionContext.getServletContext().getRealPath(
+                "/")
+                + "upload/";
+        String url=ServletActionContext.getRequest().getContextPath()
+                + "/upload/";
 
         UUID uuid = UUID.randomUUID();
 

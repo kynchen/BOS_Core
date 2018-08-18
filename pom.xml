@@ -344,6 +344,10 @@
             <artifactId>ehcache</artifactId>
             <version>2.9.0</version>
         </dependency>
+
+        <!--PDF生成 itext-->
+
+
     </dependencies>
 
     <build>

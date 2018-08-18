@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/jpa 
+		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/cache
+		http://www.springframework.org/schema/cache/spring-cache.xsd">
+	
+	<!-- 配置Shiro核心Filter  --> 
+	<bean id="shiroFilter" 
+		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 安全管理器 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 未认证，跳转到哪个页面  -->
+		<property name="loginUrl" value="/login.html" />
+		<!-- 登录页面页面 -->
+		<property name="successUrl" value="/index.html" />
+		<!-- 认证后，没有权限跳转页面 -->
+		<property name="unauthorizedUrl" value="/unauthorized.html" />
+		<!-- shiro URL控制过滤器规则  -->
+		<property name="filterChainDefinitions">
+			<value>
+				/login.html* = anon
+				/user_login.action* = anon 
+				/validatecode.jsp* = anon
+				/css/** = anon
+				/js/** = anon
+				/images/** = anon
+				/services/** = anon 
+				/pages/base/area.html* = roles["base,admin"]
+				/pages/base/fixed_area.html* = roles[admin]
+				/pages/base/sub_area.html* = roles[admin]
+				/pages/take_delivery/** = roles["admin,order"]
+				/pages/system/** = roles[admin]
+				/** = authc
+			</value>
+		</property>
+	</bean>
+
+	<!-- spring整合ehcache配置缓存->shiro封装ehcache配置->安全管理器注入shiro和realm -->
+	<!-- 1先配置spring整合ehcache配置缓存
+	2然后shiro在重新封装ehache（目的是将shiro的授权数据存入ehcache(addehcache(),get(),key-value方式)缓存），
+	3重新将realm使用xml配置，目的是可以将认证或者授权存入(就是告诉shiro我要存入什么到ehcache中)，对哪些数据进行缓存
+	4将realm和shiro重新封装后的ehcache注入到安全管理器中，这样realm查询完数据后就会将数据存入缓存中
+	 -->
+	
+	<!-- 安全管理器  -->
+	<bean id="securityManager" 
+		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="bosRealm" />
+		<property name="cacheManager" ref="shiroCacheManager" />
+	</bean>
+
+	<!-- 配置Realm -->
+	<bean id="bosRealm" class="com.kynchen.bosrealm.BosRealm">
+		<!-- 缓存区的名字 就是 ehcache.xml 自定义 cache的name -->
+		<property name="authorizationCacheName" value="bos" />
+		<property name="authenticationCacheName" value="bos"/>
+	</bean>
+
+	<bean id="lifecycleBeanPostProcessor"
+		class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+		
+	 <!--开启shiro注解模式  -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" >
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		 <property name="securityManager" ref="securityManager"/>
+	</bean>
+
+</beans>

@@ -143,4 +143,26 @@ public class CourierAction extends BaseAction<Courier> {
         return NONE;
     }
 
+    /** 查询所有快递员
+     * @return
+     */
+    @Action("courier_findAll")
+    public String courier_findAll(){
+
+        List<Courier> couriers=courierService.cour_findAll();
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.addAll(couriers);
+        JsonUtils.write(jsonArray);
+        return NONE;
+    }
+
+    @Action("courier_findById")
+    public String courier_findById(){
+        Courier courier=courierService.findById(model);
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(courier);
+        JsonUtils.write(jsonArray);
+        return NONE;
+    }
+
 }
